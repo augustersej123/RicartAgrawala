@@ -4,6 +4,7 @@ package main
 import (
 	"context"
 	"fmt"
+	"log"
 	"time"
 
 	"google.golang.org/grpc"
@@ -58,7 +59,25 @@ func (c *client) BroadcastRequest(
 		)
 		//Send request to the current peer
 		_, err := peer.Request(ctx, request)
+
+		cancel()
+
+		if err != nil {
+			log.Printf(
+				"failed to send request to peer %d: %v",
+				peerId,
+				err,
+			)
+			return err
+		}
+
+		log.Printf(
+			"sent request to node %d ",
+			peerId,
+		)
+
 	}
+	return nil
 }
 
 // send a request to a specific peer and return the reply

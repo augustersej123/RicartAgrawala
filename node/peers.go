@@ -15,5 +15,12 @@ The peers server handler should delay that response if its own request has prior
 
 6. Close all peer connections when the node shuts down.
 
+Needs:
+RequestCriticalSection
+HandleRequest
+HandleReply
+EnterCriticalSection
+ExitCriticalSection
+ProcessDefferedReplies
 
 */

@@ -10,7 +10,7 @@ import (
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/credentials/insecure"
 
-	"RicartAgrawala/proto"
+	"github.com/augustersej123/RicartAgrawala/proto"
 )
 
 type client struct {
@@ -32,12 +32,12 @@ func ConnectToPeers(adress string) (
 	)
 
 	if err != nil {
-		return nil, err
+		return nil, nil, err
 	}
 
 	//Creates a new client using previously created connection
 	//peer can now use rpc methods defined in the proto file
-	peer := proto.newRicartAgrawalaClient(conn)
+	peer := proto.NewRicartAgrawalaClient(conn)
 
 	return peer, conn, nil
 }
@@ -49,7 +49,7 @@ func ConnectToPeers(adress string) (
 // if any of the requests fail
 
 func (c *client) BroadcastRequest(
-	request *proto.Request,
+	request *proto.RequestMessage,
 ) error {
 	// iterates over all peers
 	for peerId, peer := range c.peers {

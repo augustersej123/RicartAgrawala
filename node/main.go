@@ -3,6 +3,7 @@ package main
 import (
 	"context"
 	"flag"
+	"io"
 	"log"
 	"os"
 	"os/signal"
@@ -15,6 +16,22 @@ func main() {
 	nodeID := flag.Int64("id", 1, "ID of this node")
 	requestCS := flag.Bool("request", false, "Request the Critical Section on startup")
 	flag.Parse()
+
+	//Now to add log-filing:
+
+	logFile, err := os.OpenFile(
+		"logs/system.log",
+		os.O_CREATE|os.O_WRONLY|os.O_APPEND,
+		0644,
+	)
+	if err != nil {
+		log.Fatal(err)
+	}
+	defer logFile.Close()
+
+	log.SetOutput(io.MultiWriter(os.Stdout, logFile))
+
+	log.SetFlags(log.Ldate | log.Ltime | log.Lmicroseconds)
 
 	nodes := []PeerAddress{
 		{NodeID: 1, Address: "localhost:5001"},

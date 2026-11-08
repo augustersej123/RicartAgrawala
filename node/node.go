@@ -1,6 +1,7 @@
 package main
 
 import (
+	"context"
 	"sync"
 
 	pb "github.com/augustersej123/RicartAgrawala/proto"
@@ -85,4 +86,60 @@ func (n *Node) HandleRequest(ts, requestingNodeID int64) <-chan struct{} {
 		close(replyReady)
 	}
 	return replyReady
+}
+
+func (n *Node) Request(
+	ctx context.Context,
+	req *pb.RequestMessage,
+) (*pb.Reply, error) {
+
+	//pass time and nodeid to HandleRequest, and handleRequest
+	// will determine if reply can be send now or later
+	replyReady := n.HandleRequest(req.Timestamp, req.NodeID)
+
+	select {
+	//if channel closes, we send reply, if context is done, we return error
+	case <-replyReady:
+		return &pb.Reply{
+			NodeID: n.id,
+		}, nil
+	case <-ctx.Done():
+		n.cancelDeferredReply(req.NodeID, replyReady)
+		return nil, ctx.Err()
+
+	}
+
+}
+
+func (n *Node) cancelDeferredReply(nodeID int64, replyReady chan struct{}) {
+	n.mu.Lock()
+	defer n.mu.Unlock()
+
+	if ch, exists := n.deferred[nodeID]; exists {
+		if ch == replyReady {
+			delete(n.deferred, nodeID)
+		}
+	}
+}
+
+func (n *Node) LeaveCriticalSection() {
+	n.mu.Lock()
+	defer n.mu.Unlock()
+
+	n.state = Released
+	for nodeID, ch := range n.deferred {
+		close(ch)
+		delete(n.deferred, nodeID)
+	}
+}
+
+func (n *Node) EnterCriticalSection() {
+	n.mu.Lock()
+	defer n.mu.Unlock()
+
+	if n.state == Released {
+		n.requestTS = n.clock.Tick()
+		n.state = Wanted
+	}
+
 }

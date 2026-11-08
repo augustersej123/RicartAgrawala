@@ -16,13 +16,16 @@ type server struct {
 	proto.UnimplementedRicartAgrawalaServer
 
 	gRPCServer *grpc.Server
-	peer       *peer
+	node       *Node
 }
 
-func startServer(address string) (*server, error) {
+func startServer(address string, node *Node) (*server, error) {
 	// Implementation for starting the server
 
-	grpcServer := grpc.NewServer()
+	s := &server{
+		gRPCServer: grpc.NewServer(),
+		node:       node,
+	}
 
 	//net.listen creates a network listener, and tcp is using the tcp protocol,
 	// and address is the address to listen on
@@ -32,7 +35,7 @@ func startServer(address string) (*server, error) {
 	}
 
 	// Register the server with the gRPC server
-	proto.RegisterRicartAgrawalaServer(grpcServer, &server{})
+	proto.RegisterRicartAgrawalaServer(grpcServer, s)
 
 	go func() {
 		if err := grpcServer.Serve(listener); err != nil {

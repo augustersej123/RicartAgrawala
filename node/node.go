@@ -79,6 +79,15 @@ func (n *Node) HandleRequest(ts, requestingNodeID int64) <-chan struct{} {
 	n.mu.Lock()
 	defer n.mu.Unlock()
 
+	log.Printf(
+		"[Node %d] event=request_received from=%d req_ts=%d state=%s lamport=%d",
+		n.id,
+		requestingNodeID,
+		ts,
+		n.state,
+		lamport,
+	)
+
 	replyReady := make(chan struct{})
 
 	if n.shouldDefer(ts, requestingNodeID) {
@@ -139,6 +148,8 @@ func (n *Node) LeaveCriticalSection() {
 	defer n.mu.Unlock()
 
 	n.state = Released
+	log.Printf("[Node %d] event=state_change state=RELEASED", n.id)
+
 	for nodeID, ch := range n.deferred {
 		close(ch)
 		delete(n.deferred, nodeID)
@@ -161,6 +172,8 @@ func (n *Node) EnterCriticalSection(ctx context.Context) error {
 	n.requestTS = timestamp
 	n.state = Wanted
 
+	log.Printf("[Node %d] event=state_change state=WANTED timestamp=%d", n.id, timestamp)
+
 	n.mu.Unlock()
 
 	// Ask all other nodes for permission.
@@ -175,6 +188,8 @@ func (n *Node) EnterCriticalSection(ctx context.Context) error {
 	// All permissions received: enter the critical section.
 	n.mu.Lock()
 	n.state = Held
+	log.Printf("[Node %d] event=state_change state=HELD", n.id)
+
 	n.mu.Unlock()
 
 	return nil

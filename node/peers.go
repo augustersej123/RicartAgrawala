@@ -4,6 +4,7 @@ package main
 import (
 	"context"
 	"fmt"
+	"log"
 	"sync"
 
 	pb "github.com/augustersej123/RicartAgrawala/proto"
@@ -90,14 +91,29 @@ func (p *Peers) RequestAll(ctx context.Context, timestamp int64) error {
 		go func(peer *Peer) {
 			defer wg.Done()
 
-			_, err := peer.client.Request(ctx, &pb.RequestMessage{
+			log.Printf(
+				"[Node %d] event=request_send to=%d timestamp=%d",
+				p.localID,
+				peer.NodeID,
+				timestamp,
+			)
+
+			reply, err := peer.client.Request(ctx, &pb.RequestMessage{
 				Timestamp: timestamp,
 				NodeID:    p.localID,
 			})
+
 			if err != nil {
 				errs <- fmt.Errorf("request permission from node %d: %w", peer.NodeID, err)
+				return
 			}
+			log.Printf(
+				"[Node %d] event=reply_received from=%d",
+				p.localID,
+				reply.NodeID,
+			)
 		}(peer)
+
 	}
 
 	wg.Wait()

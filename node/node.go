@@ -147,6 +147,7 @@ func (n *Node) LeaveCriticalSection() {
 
 func (n *Node) EnterCriticalSection(ctx context.Context) error {
 	timestamp := n.clock.Tick()
+
 	n.mu.Lock()
 
 	if n.state != Released {
@@ -162,16 +163,17 @@ func (n *Node) EnterCriticalSection(ctx context.Context) error {
 
 	n.mu.Unlock()
 
-	if err := n.peers.RequestAll(ctx, timestamp, n.id); err != nil {
+	// Ask all other nodes for permission.
+	if err := n.peers.RequestAll(ctx, timestamp); err != nil {
 		n.mu.Lock()
 		n.state = Released
 		n.mu.Unlock()
 
 		return err
 	}
-	n.mu.Lock()
-	defer n.mu.Unlock()
 
+	// All permissions received: enter the critical section.
+	n.mu.Lock()
 	n.state = Held
 	n.mu.Unlock()
 

@@ -54,19 +54,29 @@ func startServer(address string) (*server, error) {
 func (s *server) Request (
 	ctx context.Context,
 	req *proto.RequestMessage,
-) (*proto.Reply, error){
+) (*proto.Reply, error) {
 
-	timeStamp := req.timestamp()	
+	timeStamp := req.TimeStamp()	
 	nodeID := req.NodeID
 
-}
+	replyReady := s.peer.HandleRequest(timestamp, nodeID)
+	//here we wait for the reply to be ready from the peer
 
 
-
-func (s *server) handleRequest( timestamp int64, nodeID int) <-chan struct{}  {
-
+	select {
+	case <- replyReady:
+		log.Printf("reply ready for request from node %d", nodeID)
+	case <- ctxDone:
+		log.Printf("context done for request from node %d", nodeID)
+		return nil, ctx.Err()
+	}
 	
+	//here we tell the requesting node that this node has replied.
+	return &proto.Reply{}{
+		NodeID: s.peer.id,
+	}, nil
 }
+
 
 func (s *server) SendReply {
 

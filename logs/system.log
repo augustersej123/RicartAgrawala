@@ -1,54 +1,54 @@
-2026/11/09 00:30:14.544677 gRPC server listening on localhost:5001
-2026/11/09 00:30:15.200046 gRPC server listening on localhost:5003
-2026/11/09 00:30:15.876180 gRPC server listening on localhost:5002
-2026/11/09 00:30:16.547136 [Node 1] Requesting Critical Section
-2026/11/09 00:30:16.547308 [Node 1] event=state_change state=WANTED timestamp=1
-2026/11/09 00:30:16.547385 [Node 1] event=request_send to=3 timestamp=1
-2026/11/09 00:30:16.547400 [Node 1] event=request_send to=2 timestamp=1
-2026/11/09 00:30:16.606393 [Node 3] event=request_received from=1 req_ts=1 state=RELEASED lamport=2
-2026/11/09 00:30:16.606494 [Node 3] event=reply from=1 req_ts=1 state=RELEASED lamport=2
-2026/11/09 00:30:16.607127 [Node 1] event=reply_received from=3
-2026/11/09 00:30:16.612296 [Node 2] event=request_received from=1 req_ts=1 state=RELEASED lamport=2
-2026/11/09 00:30:16.612389 [Node 2] event=reply from=1 req_ts=1 state=RELEASED lamport=2
-2026/11/09 00:30:16.612859 [Node 1] event=reply_received from=2
-2026/11/09 00:30:16.612939 [Node 1] event=state_change state=HELD
-2026/11/09 00:30:16.612982 Node 1 event=cs_enter lamport=1
-2026/11/09 00:30:17.203961 [Node 3] Requesting Critical Section
-2026/11/09 00:30:17.204155 [Node 3] event=state_change state=WANTED timestamp=3
-2026/11/09 00:30:17.204226 [Node 3] event=request_send to=2 timestamp=3
-2026/11/09 00:30:17.204301 [Node 3] event=request_send to=1 timestamp=3
-2026/11/09 00:30:17.239332 [Node 2] event=request_received from=3 req_ts=3 state=RELEASED lamport=4
-2026/11/09 00:30:17.239502 [Node 2] event=reply from=3 req_ts=3 state=RELEASED lamport=4
-2026/11/09 00:30:17.240133 [Node 3] event=reply_received from=2
-2026/11/09 00:30:17.302859 [Node 1] event=request_received from=3 req_ts=3 state=HELD lamport=4
-2026/11/09 00:30:17.303087 [Node 1] event=defer from=3 req_ts=3 state=HELD lamport=4
-2026/11/09 00:30:17.880750 [Node 2] Requesting Critical Section
-2026/11/09 00:30:17.881007 [Node 2] event=state_change state=WANTED timestamp=5
-2026/11/09 00:30:17.881077 [Node 2] event=request_send to=3 timestamp=5
-2026/11/09 00:30:17.881107 [Node 2] event=request_send to=1 timestamp=5
-2026/11/09 00:30:17.910349 [Node 3] event=request_received from=2 req_ts=5 state=WANTED lamport=6
-2026/11/09 00:30:17.910500 [Node 3] event=defer from=2 req_ts=5 state=WANTED lamport=6
-2026/11/09 00:30:17.917246 [Node 1] event=request_received from=2 req_ts=5 state=HELD lamport=6
-2026/11/09 00:30:17.917400 [Node 1] event=defer from=2 req_ts=5 state=HELD lamport=6
-2026/11/09 00:30:18.615182 Node 1 event=cs_exit lamport=1
-2026/11/09 00:30:18.615381 [Node 1] event=state_change state=RELEASED
-2026/11/09 00:30:18.615459 [Node 1] Released Critical Section
-2026/11/09 00:30:18.617245 [Node 2] event=reply_received from=1
-2026/11/09 00:30:18.617437 [Node 3] event=reply_received from=1
-2026/11/09 00:30:18.617654 [Node 3] event=state_change state=HELD
-2026/11/09 00:30:18.617939 Node 3 event=cs_enter lamport=6
-2026/11/09 00:30:20.618428 Node 3 event=cs_exit lamport=6
-2026/11/09 00:30:20.619177 [Node 3] event=state_change state=RELEASED
-2026/11/09 00:30:20.619427 [Node 3] Released Critical Section
-2026/11/09 00:30:20.620437 [Node 2] event=reply_received from=3
-2026/11/09 00:30:20.620526 [Node 2] event=state_change state=HELD
-2026/11/09 00:30:20.620574 Node 2 event=cs_enter lamport=5
-2026/11/09 00:30:22.621962 Node 2 event=cs_exit lamport=5
-2026/11/09 00:30:22.622166 [Node 2] event=state_change state=RELEASED
-2026/11/09 00:30:22.622210 [Node 2] Released Critical Section
-2026/11/09 00:30:33.279781 Shutting down...
-2026/11/09 00:30:33.281053 gRPC server stopped
-2026/11/09 00:30:34.273485 Shutting down...
-2026/11/09 00:30:34.274491 gRPC server stopped
-2026/11/09 00:30:35.231089 Shutting down...
-2026/11/09 00:30:35.231449 gRPC server stopped
+2026/11/09 00:36:00.940227 gRPC server listening on localhost:5003
+2026/11/09 00:36:01.777167 gRPC server listening on localhost:5001
+2026/11/09 00:36:02.536397 gRPC server listening on localhost:5002
+2026/11/09 00:36:02.946204 [Node 3] Requesting Critical Section
+2026/11/09 00:36:02.946441 [Node 3] event=state_change state=WANTED timestamp=1
+2026/11/09 00:36:02.946569 [Node 3] event=request_send to=1 timestamp=1
+2026/11/09 00:36:02.946875 [Node 3] event=request_send to=2 timestamp=1
+2026/11/09 00:36:02.982520 [Node 1] event=request_received from=3 req_ts=1 state=RELEASED lamport=2
+2026/11/09 00:36:02.982602 [Node 1] event=reply from=3 req_ts=1 state=RELEASED lamport=2
+2026/11/09 00:36:02.983089 [Node 3] event=reply_received from=1
+2026/11/09 00:36:02.990535 [Node 2] event=request_received from=3 req_ts=1 state=RELEASED lamport=2
+2026/11/09 00:36:02.990636 [Node 2] event=reply from=3 req_ts=1 state=RELEASED lamport=2
+2026/11/09 00:36:02.990947 [Node 3] event=reply_received from=2
+2026/11/09 00:36:02.991037 [Node 3] event=state_change state=HELD
+2026/11/09 00:36:02.991067 [Node 3] event=cs_enter lamport=1
+2026/11/09 00:36:03.778753 [Node 1] Requesting Critical Section
+2026/11/09 00:36:03.779135 [Node 1] event=state_change state=WANTED timestamp=3
+2026/11/09 00:36:03.779764 [Node 1] event=request_send to=3 timestamp=3
+2026/11/09 00:36:03.779844 [Node 1] event=request_send to=2 timestamp=3
+2026/11/09 00:36:03.829920 [Node 2] event=request_received from=1 req_ts=3 state=RELEASED lamport=4
+2026/11/09 00:36:03.830015 [Node 2] event=reply from=1 req_ts=3 state=RELEASED lamport=4
+2026/11/09 00:36:03.830393 [Node 1] event=reply_received from=2
+2026/11/09 00:36:03.834466 [Node 3] event=request_received from=1 req_ts=3 state=HELD lamport=4
+2026/11/09 00:36:03.834575 [Node 3] event=defer from=1 req_ts=3 state=HELD lamport=4
+2026/11/09 00:36:04.538244 [Node 2] Requesting Critical Section
+2026/11/09 00:36:04.538428 [Node 2] event=state_change state=WANTED timestamp=5
+2026/11/09 00:36:04.538490 [Node 2] event=request_send to=3 timestamp=5
+2026/11/09 00:36:04.538758 [Node 2] event=request_send to=1 timestamp=5
+2026/11/09 00:36:04.592889 [Node 1] event=request_received from=2 req_ts=5 state=WANTED lamport=6
+2026/11/09 00:36:04.592987 [Node 1] event=defer from=2 req_ts=5 state=WANTED lamport=6
+2026/11/09 00:36:04.593374 [Node 3] event=request_received from=2 req_ts=5 state=HELD lamport=6
+2026/11/09 00:36:04.593457 [Node 3] event=defer from=2 req_ts=5 state=HELD lamport=6
+2026/11/09 00:36:04.992325 [Node 3] event=cs_exit lamport=1
+2026/11/09 00:36:04.992511 [Node 3] event=state_change state=RELEASED
+2026/11/09 00:36:04.992572 [Node 3] Released Critical Section
+2026/11/09 00:36:04.993387 [Node 1] event=reply_received from=3
+2026/11/09 00:36:04.993515 [Node 1] event=state_change state=HELD
+2026/11/09 00:36:04.993495 [Node 2] event=reply_received from=3
+2026/11/09 00:36:04.993567 [Node 1] event=cs_enter lamport=6
+2026/11/09 00:36:06.994595 [Node 1] event=cs_exit lamport=6
+2026/11/09 00:36:06.994812 [Node 1] event=state_change state=RELEASED
+2026/11/09 00:36:06.994891 [Node 1] Released Critical Section
+2026/11/09 00:36:06.995568 [Node 2] event=reply_received from=1
+2026/11/09 00:36:06.995678 [Node 2] event=state_change state=HELD
+2026/11/09 00:36:06.995721 [Node 2] event=cs_enter lamport=5
+2026/11/09 00:36:08.996930 [Node 2] event=cs_exit lamport=5
+2026/11/09 00:36:08.997193 [Node 2] event=state_change state=RELEASED
+2026/11/09 00:36:08.997278 [Node 2] Released Critical Section
+2026/11/09 00:36:17.652827 Shutting down...
+2026/11/09 00:36:17.654014 gRPC server stopped
+2026/11/09 00:36:18.551465 Shutting down...
+2026/11/09 00:36:18.552222 gRPC server stopped
+2026/11/09 00:36:19.391465 Shutting down...
+2026/11/09 00:36:19.391866 gRPC server stopped

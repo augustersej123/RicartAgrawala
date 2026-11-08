@@ -1,3 +1,4 @@
+// Vitus
 package main
 
 import "sync"

@@ -1,4 +1,5 @@
-//Vitus
+// Vitus
+package main
 
 /*
 1. Skip the current nodes own ID.

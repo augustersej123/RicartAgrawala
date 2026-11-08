@@ -1,33 +1,30 @@
-//Nicklas
+// Nicklas
 package main
 
 import (
 	"context"
 	"fmt"
 	"log"
-	"time"
 	"net"
-	
-	"google.golang.org/grpc"
-	"google.golang.org/grpc/credentials/insecure"
 
-	"github.com/augustersej123/RicartAgrawala/proto";
+	"google.golang.org/grpc"
+
+	"github.com/augustersej123/RicartAgrawala/proto"
 )
 
 type server struct {
 	proto.UnimplementedRicartAgrawalaServer
 
 	gRPCServer *grpc.Server
-	peer *peer
-
+	peer       *peer
 }
 
 func startServer(address string) (*server, error) {
 	// Implementation for starting the server
 
-	grpcServer := gRPC.NewServer()
+	grpcServer := grpc.NewServer()
 
-	//net.listen creates a network listener, and tcp is using the tcp protocol, 
+	//net.listen creates a network listener, and tcp is using the tcp protocol,
 	// and address is the address to listen on
 	listener, err := net.Listen("tcp", address)
 	if err != nil {
@@ -42,46 +39,45 @@ func startServer(address string) (*server, error) {
 			log.Fatalf("gRPC server stopped %v", err)
 		}
 	}()
-	
-
 
 	return &server{}, nil
 }
-//Here we take the request, and find the timestamp and nodeID of the request, and 
+
+//Here we take the request, and find the timestamp and nodeID of the request, and
 // then we can use that information to determine if we should send a reply or not.
 //The returning logic is left up to peer.go
 
-func (s *server) Request (
+func (s *server) Request(
 	ctx context.Context,
 	req *proto.RequestMessage,
 ) (*proto.Reply, error) {
 
-	timeStamp := req.TimeStamp()	
+	timeStamp := req.Timestamp
 	nodeID := req.NodeID
 
-	replyReady := s.peer.HandleRequest(timestamp, nodeID)
+	replyReady := s.peer.HandleRequest(timeStamp, nodeID)
 	//here we wait for the reply to be ready from the peer
 
-
 	select {
-	case <- replyReady:
+	case <-replyReady:
 		log.Printf("reply ready for request from node %d", nodeID)
-	case <- ctxDone:
+	case <-ctx.Done():
 		log.Printf("context done for request from node %d", nodeID)
 		return nil, ctx.Err()
 	}
-	
+
 	//here we tell the requesting node that this node has replied.
-	return &proto.Reply{}{
+	return &proto.Reply{
 		NodeID: s.peer.id,
 	}, nil
 }
 
-
-func (s *server) SendReply {
-
-}
-
 func (s *server) stopServer() {
+	//stopping the server gracefully
+	s.gRPCServer.GracefulStop()
 
+	//This makes the server stop accepting new request,
+	//but stil finish processing the currently running requests before shutting down.
+
+	log.Println("gRPC server stopped")
 }
